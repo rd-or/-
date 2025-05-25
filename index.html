@@ -3,45 +3,191 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>حاسبة النسبة الموزونة (علمي)</title>
+    <title>حاسبة النسبة الموزونة</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+        /* إضافة بعض التنسيقات لزر التبديل (متبقي لنسبة ثالث ثانوي فقط) */
+        .toggle-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            gap: 15px;
+            flex-wrap: wrap; /* للسماح بالالتفاف على الشاشات الصغيرة */
+        }
+        .toggle-container label {
+            cursor: pointer;
+            font-weight: normal; /* Override bold from .input-group label */
+            color: #333;
+            margin-bottom: 0;
+            display: inline-block;
+        }
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+        }
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            -webkit-transition: .4s;
+            transition: .4s;
+            border-radius: 34px;
+        }
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            -webkit-transition: .4s;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        input:checked + .slider {
+            background-color: #2196F3;
+        }
+        input:focus + .slider {
+            box-shadow: 0 0 1px #2196F3;
+        }
+        input:checked + .slider:before {
+            -webkit-transform: translateX(26px);
+            -ms-transform: translateX(26px);
+            transform: translateX(26px);
+        }
+        /* Rounded sliders */
+        .slider.round {
+            border-radius: 34px;
+        }
+        .slider.round:before {
+            border-radius: 50%;
+        }
+
+        /* إخفاء مجموعات الإدخال حسب الحاجة */
+        .hidden {
+            display: none;
+        }
+
+        /* تنسيق الزر الجديد في الأعلى */
+        #toggleDetailedHighSchoolBtn {
+            background-color: #f0ad4e; /* لون تحذيري أو مميز */
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1em;
+            margin-bottom: 25px;
+            transition: background-color 0.3s ease;
+            width: 100%; /* اجعله يمتد بعرض الحاوية */
+            box-sizing: border-box; /* لضمان عدم تجاوز العرض عند إضافة padding */
+        }
+        #toggleDetailedHighSchoolBtn:hover {
+            background-color: #ec971f;
+        }
+
+        /* تنسيقات الشعار الجديد */
+        .logo-container {
+            text-align: center;
+            margin-bottom: 30px; /* مسافة تحت الشعار */
+        }
+
+        .logo-container img {
+            max-width: 150px; /* حجم الشعار */
+            height: auto;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
-        <h1>حاسبة النسبة الموزونة للقسم العلمي</h1>
-
-        <h2>درجات ثالث ثانوي</h2>
-        <div class="input-group">
-            <label for="thirdSem1">الفصل الأول:</label>
-            <input type="number" id="thirdSem1" min="0" max="100" placeholder="أدخل درجة الفصل الأول" required>
-        </div>
-        <div class="input-group">
-            <label for="thirdSem2">الفصل الثاني:</label>
-            <input type="number" id="thirdSem2" min="0" max="100" placeholder="أدخل درجة الفصل الثاني" required>
-        </div>
-        <div class="input-group">
-            <label for="thirdSem3">الفصل الثالث:</label>
-            <input type="number" id="thirdSem3" min="0" max="100" placeholder="أدخل درجة الفصل الثالث" required>
+        <div class="logo-container">
+            <img src="2.png" alt="شعار حاسبة النسبة الموزونة">
         </div>
 
-        <h2>معدلات السنوات السابقة</h2>
-        <div class="input-group">
-            <label for="firstYearAvg">معدل أولى ثانوي:</label>
-            <input type="number" id="firstYearAvg" min="0" max="100" placeholder="أدخل معدل أولى ثانوي" required>
-        </div>
-        <div class="input-group">
-            <label for="secondYearAvg">معدل ثاني ثانوي:</label>
-            <input type="number" id="secondYearAvg" min="0" max="100" placeholder="أدخل معدل ثاني ثانوي" required>
+        <h1>حاسبة النسبة الموزونة</h1>
+
+        <button id="toggleDetailedHighSchoolBtn">لا أعرف النسبة النهائية للثانوية العامة</button>
+
+        <div id="highSchoolDirectInputSection" class="input-section">
+            <h2>معدل الثانوي العام</h2>
+            <div class="input-group">
+                <label for="highSchoolFinalScore">معدل الثانوي العام:</label>
+                <input type="number" id="highSchoolFinalScore" min="0" max="100" placeholder="أدخل معدل الثانوي الكلي">
+            </div>
         </div>
 
-        <h2>درجات القدرات والتحصيلي</h2>
-        <div class="input-group">
-            <label for="aptitudeScore">درجة القدرات:</label>
-            <input type="number" id="aptitudeScore" min="0" max="100" placeholder="أدخل درجة القدرات" required>
+        <div id="detailedHighSchoolSection" class="input-section hidden">
+            <h2>حساب معدل الثانوي من السنوات والفصول</h2>
+            <div class="input-group">
+                <label for="firstYearAvg">معدل أولى ثانوي:</label>
+                <input type="number" id="firstYearAvg" min="0" max="100" placeholder="أدخل معدل أولى ثانوي" required>
+            </div>
+            <div class="input-group">
+                <label for="secondYearAvg">معدل ثاني ثانوي:</label>
+                <input type="number" id="secondYearAvg" min="0" max="100" placeholder="أدخل معدل ثاني ثانوي" required>
+            </div>
+
+            <div class="toggle-container">
+                <label for="toggleThirdYearMethod">حساب نسبة ثالث ثانوي من الفصول</label>
+                <label class="toggle-switch">
+                    <input type="checkbox" id="toggleThirdYearMethod">
+                    <span class="slider round"></span>
+                </label>
+                <label for="toggleThirdYearMethod">إدخال نسبة ثالث ثانوي مباشرة</label>
+            </div>
+
+            <div id="thirdYearSemesters" class="input-section">
+                <h2>درجات ثالث ثانوي (الفصول)</h2>
+                <div class="input-group">
+                    <label for="thirdSem1">الفصل الأول:</label>
+                    <input type="number" id="thirdSem1" min="0" max="100" placeholder="أدخل درجة الفصل الأول" required>
+                </div>
+                <div class="input-group">
+                    <label for="thirdSem2">الفصل الثاني:</label>
+                    <input type="number" id="thirdSem2" min="0" max="100" placeholder="أدخل درجة الفصل الثاني" required>
+                </div>
+                <div class="input-group">
+                    <label for="thirdSem3">الفصل الثالث:</label>
+                    <input type="number" id="thirdSem3" min="0" max="100" placeholder="أدخل درجة الفصل الثالث" required>
+                </div>
+            </div>
+
+            <div id="thirdYearDirect" class="input-section hidden">
+                <h2>نسبة ثالث ثانوي النهائية</h2>
+                <div class="input-group">
+                    <label for="thirdYearFinalScore">نسبة ثالث ثانوي:</label>
+                    <input type="number" id="thirdYearFinalScore" min="0" max="100" placeholder="أدخل نسبة ثالث ثانوي النهائية" required>
+                </div>
+            </div>
         </div>
-        <div class="input-group">
-            <label for="achievementScore">درجة التحصيلي:</label>
-            <input type="number" id="achievementScore" min="0" max="100" placeholder="أدخل درجة التحصيلي" required>
+        
+        <div class="input-section">
+            <h2>درجة القدرات</h2>
+            <div class="input-group">
+                <label for="aptitudeScore">درجة القدرات:</label>
+                <input type="number" id="aptitudeScore" min="0" max="100" placeholder="أدخل درجة القدرات" required>
+            </div>
+        </div>
+
+        <div class="input-section">
+            <h2>درجة التحصيلي</h2>
+            <div class="input-group">
+                <label for="achievementScore">درجة التحصيلي:</label>
+                <input type="number" id="achievementScore" min="0" max="100" placeholder="أدخل درجة التحصيلي" required>
+            </div>
         </div>
 
         <button id="calculateBtn">احسب النسبة الموزونة</button>

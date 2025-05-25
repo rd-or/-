@@ -7,6 +7,8 @@ body {
     min-height: 100vh;
     margin: 0;
     color: #333;
+    padding: 20px; /* إضافة padding لضمان عدم التصاق المحتوى بحواف الشاشة على الأجهزة الصغيرة */
+    box-sizing: border-box; /* لضمان أن padding لا يزيد عن العرض الكلي */
 }
 
 .container {
@@ -17,6 +19,21 @@ body {
     width: 100%;
     max-width: 500px;
     text-align: center;
+    box-sizing: border-box; /* لضمان أن padding لا يزيد عن العرض الكلي */
+}
+
+/* تنسيقات الشعار الجديد */
+.logo-container {
+    text-align: center; /* لمركزة الشعار */
+    margin-bottom: 30px; /* مسافة تحت الشعار ليفصله عن العنوان */
+}
+
+.logo-container img {
+    max-width: 150px; /* يمكنك تعديل هذا الحجم ليناسب تصميمك */
+    height: auto; /* للحفاظ على نسبة العرض إلى الارتفاع */
+    display: block; /* لجعل margin auto يعمل لمركزة الصورة */
+    margin-left: auto;
+    margin-right: auto;
 }
 
 h1 {
@@ -48,12 +65,12 @@ label {
 
 input[type="number"],
 select {
-    width: calc(100% - 20px);
+    width: calc(100% - 20px); /* Adjust width to account for padding */
     padding: 12px 10px;
     border: 1px solid #ddd;
     border-radius: 6px;
     font-size: 1em;
-    box-sizing: border-box;
+    box-sizing: border-box; /* Include padding in the element's total width and height */
 }
 
 button {
@@ -67,6 +84,8 @@ button {
     font-weight: bold;
     margin-top: 25px;
     transition: background-color 0.3s ease;
+    width: 100%; /* Make button full width */
+    box-sizing: border-box; /* Include padding in the element's total width and height */
 }
 
 button:hover {
@@ -95,4 +114,119 @@ button:hover {
     display: inline-block;
     min-width: 60px;
     text-align: left;
+}
+
+/* إضافة بعض التنسيقات لزر التبديل (متبقي لنسبة ثالث ثانوي فقط) */
+.toggle-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+    gap: 15px;
+    flex-wrap: wrap; /* للسماح بالالتفاف على الشاشات الصغيرة */
+    direction: rtl; /* للتأكد من الاتجاه الصحيح للعناصر داخلها */
+}
+.toggle-container label {
+    cursor: pointer;
+    font-weight: normal; /* Override bold from .input-group label */
+    color: #333;
+    margin-bottom: 0;
+    display: inline-block;
+}
+.toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+}
+.toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+    border-radius: 34px;
+}
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+    border-radius: 50%;
+}
+input:checked + .slider {
+    background-color: #2196F3;
+}
+input:focus + .slider {
+    box-shadow: 0 0 1px #2196F3;
+}
+input:checked + .slider:before {
+    -webkit-transform: translateX(-26px); /* Adjusted for RTL */
+    -ms-transform: translateX(-26px); /* Adjusted for RTL */
+    transform: translateX(-26px); /* Adjusted for RTL */
+}
+/* Rounded sliders */
+.slider.round {
+    border-radius: 34px;
+}
+.slider.round:before {
+    border-radius: 50%;
+}
+
+/* إخفاء مجموعات الإدخال حسب الحاجة */
+.hidden {
+    display: none;
+}
+
+/* تنسيق الزر الجديد في الأعلى */
+#toggleDetailedHighSchoolBtn {
+    background-color: #f0ad4e; /* لون تحذيري أو مميز */
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1em;
+    margin-bottom: 25px;
+    transition: background-color 0.3s ease;
+    width: 100%; /* اجعله يمتد بعرض الحاوية */
+    box-sizing: border-box; /* لضمان عدم تجاوز العرض عند إضافة padding */
+}
+#toggleDetailedHighSchoolBtn:hover {
+    background-color: #ec971f;
+}
+
+/* تعديلات طفيفة للاستجابة على الشاشات الصغيرة */
+@media (max-width: 600px) {
+    .container {
+        padding: 20px;
+    }
+    h1 {
+        font-size: 1.5em;
+    }
+    h2 {
+        font-size: 1.2em;
+    }
+    button, input[type="number"] {
+        padding: 10px;
+        font-size: 0.95em;
+    }
+    .toggle-container {
+        flex-direction: column; /* جعل العناصر تتكدس عموديًا على الشاشات الصغيرة */
+        gap: 10px;
+    }
 }
